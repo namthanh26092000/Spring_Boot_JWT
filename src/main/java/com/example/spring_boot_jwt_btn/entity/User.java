@@ -2,31 +2,29 @@ package com.example.spring_boot_jwt_btn.entity;
 import javax.persistence.*;
 import lombok.*;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name = "t_user")
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-@Entity
-@Table(name = "studentjpa")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
 
-    @Column(name = "name")
-    private String name;
+public class User extends BaseEntity{
+    private String username;
 
-    @Column(name = "age")
-    private int age;
+    private String password;
 
-    @Column(name = "address")
-    private String address;
+    @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @JoinTable(name = "t_user_role", joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
 
-    @Column(name = "email")
-    private String email;
+    private Set<Role> roles = new HashSet<>();
 
-    @Column(name = "className")
-    private String className;
+
+
 }
